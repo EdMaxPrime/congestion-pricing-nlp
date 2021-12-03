@@ -21,3 +21,11 @@ The MTA held live public meetings for each geographic area [linked here](https:/
 - New Jersey Part 2: https://youtu.be/nDqOifk_MH4
 - Upstate part 2: https://youtu.be/sQkbKvhDSv0
 - Manhattan above 60th Street: https://youtu.be/_r0hER61xME
+
+# How to Run It
+
+After cloning this repository, populate the data directory.
+```
+cd sourcing
+python data_clean.py
+```
