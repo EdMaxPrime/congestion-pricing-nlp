@@ -53,8 +53,4 @@ def read_file():
                 print(filename)
                 print(speaker)
     
-                
-# print(filename, filler_count(speaker), avg_length(speaker), avg_length_without_filler(speaker))
-
-
-        
+            
