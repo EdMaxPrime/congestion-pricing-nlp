@@ -16,7 +16,7 @@ def preprocess(speaker):
     return speaker
 
 def avg_length(speaker):
-    print(speaker)
+    # print(speaker)
     avg = sum(len(word) for word in speaker) / len(speaker)
     return avg
 
@@ -38,19 +38,21 @@ def filler_count(speaker):
     return instances
 
 def read_file():
-    go_back = normpath(getcwd() + sep + pardir)
-    print(go_back)
-    directory_name = join(go_back, 'sourcing/data')
-    directory = listdir(directory_name)
-    print(directory)
+	#speaker list 
+	speaker_list = list()
+	go_back = normpath(getcwd() + sep + pardir)
+	print(go_back)
+	directory_name = join(go_back, 'sourcing/data')
+	directory = listdir(directory_name)
+	print(directory)
     #for each file in data directory
-    for filename in directory:
+	for filename in directory:
         #read the content of each
-        if filename.endswith('.txt'):
-            with open(join(directory_name, filename)) as f:
-                speaker = f.read()
-                speaker = preprocess(speaker)
-                print(filename)
-                print(speaker)
+		if filename.endswith('.txt'):
+			with open(join(directory_name, filename)) as f:
+				speaker = f.read()
+				#add to speaker list
+				speaker_list.append(speaker)
+	return speaker_list
     
             
