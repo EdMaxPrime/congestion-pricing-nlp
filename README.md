@@ -26,6 +26,13 @@ The MTA held live public meetings for each geographic area [linked here](https:/
 
 After cloning this repository, populate the data directory.
 ```
-cd sourcing
 python data_clean.py
 ```
+
+Then you can run feature extraction
+
+```
+python features/main.py
+```
+
+And it will generate a file called features.csv
