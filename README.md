@@ -24,10 +24,25 @@ The MTA held live public meetings for each geographic area [linked here](https:/
 
 # How to Run It
 
+## Virtual Environment
+
+If you have python and pip on your system, you can make a virtual environment and then install the required libraries:
+```
+python3 -m venv venv
+source venv/bin/activate
+pip3 install -r requirements.txt
+```
+
+To deactivate the virtual environment, type `deactivate`. You can delete the environment with `rm -rf venv`
+
+## Get data
+
 After cloning this repository, populate the data directory.
 ```
 python data_clean.py
 ```
+
+## Feature Extraction
 
 Then you can run feature extraction
 
