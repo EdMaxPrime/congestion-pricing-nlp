@@ -1,4 +1,5 @@
 from os import listdir, getcwd
+import syntax
 
 
 DATA_PATH = "data"
@@ -8,6 +9,11 @@ regions = ["Downtown"]
 def main():
 	# read all files in data directory
 	speakers, data, headers = read_files()
+	# process command line arguments
+	# call each feature function
+	data, headers = extract_features(speakers, data, headers)
+	# collate into one big result matrix
+	# interestingCorrelations()
 	text = ",".join(headers) + "\n" + "\n".join(["{},{}".format(row[0], row[1]) for row in data])
 	try:
 		f = open("features.csv", 'w')
@@ -15,11 +21,12 @@ def main():
 		f.close()
 	except:
 		print("Couldn't save features")
-	# process command line arguments
-	# call each feature function
-	# collate into one big result matrix
-	# interestingCorrelations()
 	# trainModel()
+
+def extract_features(speakers, data, headers):
+	syntax.pronouns(speakers, data, headers)
+	return data, headers
+
 
 # Returns
 # (1) array of strings, the speakers
