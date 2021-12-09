@@ -16,18 +16,21 @@ path = join(cwd, DATA_PATH)
 if not exists(path):
 	mkdir(path)
 
+#Keep track of where everything ended up
+
 #for each file in this directory
 for filename in original_files:
 	#Skip non-text files
 	if filename[-4:] != ".txt": 
 		continue
-	#read the text file and try to split it
+	#read the text file and try to split it into speakers
 	with open(filename, 'r') as file:
 		print("Opened " + filename)
 		transcript = re.sub(NEW_LINE, " ", file.read())
 		speakers = re.split(SPEAKER, transcript)
 		for s in speakers:
-			anon_name = "{:03d}.txt".format(next_file)
+			anon_name = "{:03d}_{}.txt".format(next_file, filename[:-4])
+			print(anon_name)
 			try:
 				individual_file = open(join(path, anon_name), 'w')
 				individual_file.write(s)
