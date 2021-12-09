@@ -31,10 +31,13 @@ If you have python and pip on your system, you can make a virtual environment an
 python3 -m venv venv
 source venv/bin/activate
 pip3 install -r requirements.txt
-mkdir nltk_data
 ```
 
-The last command is for nltk's corpus
+Now download nltk's packages:
+```
+mkdir nltk_data
+python setup.py
+```
 
 To deactivate the virtual environment, type `deactivate`. You can delete the environment with `rm -rf venv`
 
