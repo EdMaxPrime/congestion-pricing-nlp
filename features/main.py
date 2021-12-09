@@ -1,5 +1,6 @@
 from os import listdir, getcwd
 import syntax
+import numpy as np
 
 
 DATA_PATH = "data"
@@ -23,9 +24,19 @@ def main():
 		print("Couldn't save features")
 	# trainModel()
 
-def extract_features(speakers, data, headers):
-	syntax.pronouns(speakers, data, headers)
-	return data, headers
+def extract_features(speakers, features_old, headers):
+	features = [features_old]
+
+	f,h = syntax.pronouns(speakers)
+	features.append(f)
+	headers.extend(h)
+
+	f,h = syntax.most_common(speakers)
+	features.append(f)
+	headers.extend(h)
+
+	all_features = np.concatenate(features,axis=1)
+	return all_features, headers
 
 
 # Returns

@@ -1,9 +1,11 @@
 #Ignore generated data files
 data/
+nltk_data/
 
 #Ignore python
 *.pyc
 __pycache__
+venv/
 
 #misc
 .DS_Store

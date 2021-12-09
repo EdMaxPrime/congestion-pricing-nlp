@@ -31,7 +31,7 @@ If you have python and pip on your system, you can make a virtual environment an
 python3 -m venv venv
 source venv/bin/activate
 pip3 install -r requirements.txt
-mkdir venv/nltk_data
+mkdir nltk_data
 ```
 
 The last command is for nltk's corpus
