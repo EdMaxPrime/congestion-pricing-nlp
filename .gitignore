@@ -1,2 +1,5 @@
 #Ignore generated data files
 data/
+
+#Ignore python
+*.pyc
