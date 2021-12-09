@@ -6,6 +6,7 @@ nltk_data/
 *.pyc
 __pycache__
 venv/
+nlpvenv/
 
 #misc
 .DS_Store

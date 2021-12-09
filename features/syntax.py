@@ -4,6 +4,8 @@ from nltk.corpus import stopwords
 from nltk.probability import FreqDist
 #used to tokenize words
 from nltk.tokenize import RegexpTokenizer
+#used to stem words 
+from nltk.stem.snowball import SnowballStemmer
 #used for counting
 from collections import Counter
 import nltk
@@ -12,6 +14,7 @@ nltk.download("punkt", download_dir="nltk_data")
 nltk.download("averaged_perceptron_tagger", download_dir="nltk_data")
 nltk.download("stopwords", download_dir="nltk_data")
 import numpy as np
+import re
 
 def pronouns(speakers):
 	f = []
@@ -25,12 +28,12 @@ def most_common(texts):
 	# don't count punctuation
 	punct = ['.', ',', ':', ';', '-', "\'", "\"", '(', ")", '!', '?', "...", "``", "\'\'"]
 	num_texts = len(texts)
-	unigrams = np.ndarray(shape=(num_texts, 30), dtype=float, order='C')
+	unigrams = np.ndarray(shape=(num_texts, 50), dtype=float, order='C')
 	# First, collect all words
 	words = [] #contains all words
 	breakpoints = [0] #indices into words array between texts
 	for text in texts:
-		tokens = nltk.word_tokenize(text)
+		tokens = nltk.word_tokenize(preprocess(text))
 		tokens = [word.lower() for word in tokens]
 		words += tokens
 		breakpoints.append(len(words))
@@ -39,9 +42,9 @@ def most_common(texts):
 	word_counts_ordered = word_counts.most_common()
 	headers = [] #the most common 30 words
 	for word, count in word_counts_ordered:
-		if len(headers) == 30:
+		if len(headers) == 50:
 			break
-		if word not in punct and word not in stopwords.words('english'):
+		if word not in punct and word not in stopwords.words('english') and word != 'um' and word != 'uh':
 			headers.append(word)
 	# Next, count how often each of the "most common" appears per text
 	for i in range(num_texts):
@@ -52,16 +55,20 @@ def most_common(texts):
 			unigrams[i][j] = counts[ headers[j] ] / (breakpoints[i+1] - breakpoints[i])
 	return unigrams, headers
 
+#remove punctuation and stem for one speaker
 def preprocess(speaker):
     #remove punctuation
     speaker = re.sub(r'[^\w\s]', '', speaker)
     #split text
     speaker = speaker.split()
+	#stemming words 
+    snowstemmer = SnowballStemmer('english')
+    for i in range(len(speaker)):
+        speaker[i] = snowstemmer.stem(speaker[i])
     #remove stopwords
     # stop_words = set(stopwords.words("english"))
     # speaker = [word for word in speaker if word not in stop_words]
-    
-    return speaker
+    return ' '.join(speaker)
 
 #Average word length for one text
 def avg_length(speaker):
@@ -96,3 +103,5 @@ def average_word_length(speakers):
 		counts[i][2] = filler_count(tokens) / len(tokens)
 	return counts, ["Avg Length", "Avg Length No Um", "Filler Word Rate"]
 
+
+# print(preprocess("why should the motorists have to be penalized for something that the city admits it's its own fault"))
