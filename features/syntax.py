@@ -63,15 +63,16 @@ def preprocess(speaker):
     
     return speaker
 
+#Average word length for one text
 def avg_length(speaker):
     # print(speaker)
     avg = sum(len(word) for word in speaker) / len(speaker)
     return avg
 
+#Average 
 def avg_length_without_filler(speaker):
-    without_uh = list(filter(lambda a: a != 'uh', speaker))
-    without_um = list(filter(lambda a: a != 'uh', without_uh))
-    avg_without_filler = sum(len(word) for word in without_um) / len(without_um)
+    without_uh = list(filter(lambda a: a != 'uh' and a != 'um', speaker))
+    avg_without_filler = avg_length(without_uh)
     return avg_without_filler
 
 
@@ -84,3 +85,14 @@ def filler_count(speaker):
         if word == 'uh' or word == 'um':
             instances += 1
     return instances
+
+def average_word_length(speakers):
+	num_speakers = len(speakers)
+	counts = np.ndarray(shape=(num_texts, 3), dtype=float, order='C')
+	for i in range(num_speakers):
+		tokens = nltk.word_tokenize(speakers[i])
+		counts[i][0] = avg_length(tokens)
+		counts[i][1] = avg_length_without_filler(tokens)
+		counts[i][2] = filler_count(tokens) / len(tokens)
+	return counts, ["Avg Length", "Avg Length No Um", "Filler Word Rate"]
+

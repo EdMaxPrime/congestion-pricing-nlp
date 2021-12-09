@@ -24,6 +24,15 @@ def main():
 		print("Couldn't save features")
 	# trainModel()
 
+# speakers: list of strings, where each string is one speaker
+# features_old: same length as speakers, 2d array, one row of data per speaker
+# headers: column description
+#
+# Each function called in here has to do 2 things:
+#   parameter: speakers
+#   return: features (2d array), headers (list of column descriptions)
+#   where features has as many rows as speakers, and as many columns as things
+#   it calculates
 def extract_features(speakers, features_old, headers):
 	features = [features_old]
 
@@ -32,6 +41,10 @@ def extract_features(speakers, features_old, headers):
 	headers.extend(h)
 
 	f,h = syntax.most_common(speakers)
+	features.append(f)
+	headers.extend(h)
+
+	f,h = syntax.average_word_length(speakers)
 	features.append(f)
 	headers.extend(h)
 
