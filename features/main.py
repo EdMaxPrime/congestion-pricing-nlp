@@ -15,7 +15,7 @@ def main():
 	data, headers = extract_features(speakers, data, headers)
 	# collate into one big result matrix
 	# interestingCorrelations()
-	text = ",".join(headers) + "\n" + "\n".join(["{},{}".format(row[0], row[1]) for row in data])
+	text = ",".join(headers) + "\n" + "\n".join([",".join([str(val) for val in row]) for row in data])
 	try:
 		f = open("features.csv", 'w')
 		f.write(text)
@@ -46,6 +46,10 @@ def extract_features(speakers, features_old, headers):
 	headers.extend(h)
 
 	f,h = syntax.average_word_length(speakers)
+	features.append(f)
+	headers.extend(h)
+
+	f,h = syntax.my_car(speakers)
 	features.append(f)
 	headers.extend(h)
 

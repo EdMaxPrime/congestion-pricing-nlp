@@ -7,6 +7,9 @@ nltk_data/
 __pycache__
 venv/
 nlpvenv/
+features/Pipfile
+features/tfidf.py
+*.csv
 
 #misc
 .DS_Store

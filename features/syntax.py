@@ -91,7 +91,7 @@ def filler_count(speaker):
 
 def average_word_length(speakers):
 	num_speakers = len(speakers)
-	counts = np.ndarray(shape=(num_texts, 3), dtype=float, order='C')
+	counts = np.ndarray(shape=(num_speakers, 3), dtype=float, order='C')
 	for i in range(num_speakers):
 		tokens = nltk.word_tokenize(speakers[i])
 		counts[i][0] = avg_length(tokens)
@@ -99,5 +99,10 @@ def average_word_length(speakers):
 		counts[i][2] = filler_count(tokens) / len(tokens)
 	return counts, ["Avg Length", "Avg Length No Um", "Filler Word Rate"]
 
+def my_car(speakers):
+	car_array = []
+	for speaker in speakers:
+		car_array.append([speaker.find("my car") != -1])
+	return car_array, ["reference to 'my car'"]
 
 # print(preprocess("why should the motorists have to be penalized for something that the city admits it's its own fault"))
