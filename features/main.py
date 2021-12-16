@@ -41,6 +41,7 @@ def extract_features(speakers, features_old, headers):
 	headers.extend(h)
 
 	f,h = syntax.most_common(speakers)
+	print(h)
 	features.append(f)
 	headers.extend(h)
 
