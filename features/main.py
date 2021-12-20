@@ -24,6 +24,14 @@ def main():
 		print("Couldn't save features")
 	# trainModel()
 
+#Returns 2d array of shape (num_samples, num_features) to be used for learning
+def load_features():
+	# read all files in data directory
+	speakers, data, headers = read_files()
+	# call each feature function
+	data, headers = extract_features(speakers, data, headers)
+	return data
+
 # speakers: list of strings, where each string is one speaker
 # features_old: same length as speakers, 2d array, one row of data per speaker
 # headers: column description
@@ -41,7 +49,6 @@ def extract_features(speakers, features_old, headers):
 	headers.extend(h)
 
 	f,h = syntax.most_common(speakers)
-	print(h)
 	features.append(f)
 	headers.extend(h)
 
