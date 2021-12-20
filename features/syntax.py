@@ -6,18 +6,30 @@ from nltk.probability import FreqDist
 from nltk.tokenize import RegexpTokenizer
 #used to stem words 
 from nltk.stem.snowball import SnowballStemmer
+import nltk
+#load relevant nltk libraries
+nltk.data.path.append("nltk_data")
 #used for counting
 from collections import Counter
-import nltk
 import numpy as np
 import re
 
-def pronouns(speakers):
-	f = []
-	for i in range(len(speakers)):
-		f.append([0])
-	h = ["Test"]
-	return f, h
+
+def pronouns(texts):
+	common_pos_tags = ['NN', 'NNP', 'DT', 'IN', 'JJ', 'NNS','CC','PRP','VB','VBG']
+	header = ['Noun', 'Proper Noun', 'Determiner', 'Preposition', 'Adjective', 'Noun Plural', 'Coordinating Conjunction', 'Personal Pronoun', 'Verb', 'Verb Grund']
+	num_texts = len(texts)
+	num_cols = len(header)
+	final_counts = np.ndarray(shape=(num_texts, num_cols), dtype=int, order='C')
+	for i in range(num_texts):
+		tokens = nltk.word_tokenize(texts[i])
+		tags = nltk.pos_tag(tokens)
+		tag_counts = Counter (tag for word, tag in tags)
+		for j in range(num_cols):
+			# if i == 0:
+			# 	print("%s: %d" % (common_pos_tags[j], tag_counts[ common_pos_tags[j] ]))
+			final_counts[i][j] = tag_counts[ common_pos_tags[j] ]
+	return final_counts, header
 
 
 def most_common(texts):
