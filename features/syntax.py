@@ -20,11 +20,14 @@ def pronouns(texts):
 	header = ['Noun', 'Proper Noun', 'Determiner', 'Preposition', 'Adjective', 'Noun Plural', 'Coordinating Conjunction', 'Personal Pronoun', 'Verb', 'Verb Grund']
 	num_texts = len(texts)
 	num_cols = len(header)
-	final_counts = np.ndarray(shape=(num_texts, num_cols), dtype=int, order='C')
+	final_counts = np.ndarray(shape=(num_texts, num_cols), dtype=float, order='C')
 	for i in range(num_texts):
 		tokens = nltk.word_tokenize(texts[i])
+		total_tokens = len(tokens)
 		tags = nltk.pos_tag(tokens)
 		tag_counts = Counter (tag for word, tag in tags)
+		for tag in tag_counts:
+			tag_counts[tag] /= total_tokens
 		for j in range(num_cols):
 			# if i == 0:
 			# 	print("%s: %d" % (common_pos_tags[j], tag_counts[ common_pos_tags[j] ]))
