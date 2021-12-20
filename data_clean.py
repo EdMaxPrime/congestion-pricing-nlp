@@ -7,7 +7,8 @@ SRC_PATH = "sourcing"
 SPEAKER = re.compile("===")
 NEW_LINE = re.compile("\n\n")
 
-original_files = listdir(SRC_PATH).sort()
+original_files = listdir(SRC_PATH)
+original_files.sort()
 next_file = 0
 first_file = 0
 
