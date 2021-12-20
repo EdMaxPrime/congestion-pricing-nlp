@@ -73,8 +73,8 @@ def read_files():
 	data = []
 	headers = ["Region", "Order"]
 	order = 0             #order of speaking in a meeting
-	region_id = 0         #numeric representation of geographic region
-	last_region = ""      #keep track of when region changes
+	region_id = -1        #numeric representation of geographic region
+	last_region = ""      #keep track of when region changes by name
 	#for each file, read it and append to list
 	for filename in file_names:
 		region = filename[4:-4]     #get geographic location
