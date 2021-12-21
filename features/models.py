@@ -28,22 +28,28 @@ from pathlib import Path
 # print("Score: ", clf.score(X_test, y_test))
 
 
-def load_labels():
+def load_labels(num_samples):
 	try:
+		labels = np.full(num_samples, -1, dtype=int) #array full of -1
 		p = Path(__file__).with_name('Speakers_labeled.csv')
 		csv = [row.split(",") for row in p.open('r')]
-		csv = csv[1:]
-		return [row[2] for row in csv]
+		print("Opened labels file")
+		for row in csv[1:]:
+			try:
+				idx = int(row[0])
+				val = int(row[2])
+				labels[ idx ] = val
+			except:
+				print("Failed to convert ", row[0])
+		return labels
 	except:
 		exit("Couldn't find labeled data in Speakers_labeled.csv")
 
 
 
 def main():
-	target = load_labels()
-	data = load_features()[123:217]
-	print("Features shape: ", data.shape)
-	print("Labels shape:", len(target))
+	data = load_features()
+	target = load_labels(len(data))
 	X_train, X_test, y_train, y_test = train_test_split(data, target, test_size=0.4, random_state=0)
 	clf = SVC(kernel='linear', C=1).fit(X_train, y_train)
 	print("Score: ", clf.score(X_test, y_test))
