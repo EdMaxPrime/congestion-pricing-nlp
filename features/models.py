@@ -34,6 +34,19 @@ def get_predictions():
 				predictions[actual_i] = y_pred[fold_i]
 	return X, headers, predictions
 
+# Parameters:
+#   labels  is an array of hand labeled data, with -1 for missing
+#   predictions is an array of the model's predictions, same size
+def advanced_score(labels, predictions):
+	right = [0, 0, 0]
+	total = [0, 0, 0]
+	for a, p in zip(labels, predictions):
+		if a != -1:
+			right[p] += int(p == a)
+			total[p] += 1
+	scores = [ right[i] / total[i] for i in range(0, len(total)) ]
+	print("0         1        2")
+	print("{:.2%}   {:.2%}   {:.2%}".format(scores[0], scores[1], scores[2]))
 
 def my_metric(predicted, actual, indices):
 	labeled = 0
@@ -74,6 +87,7 @@ def main():
 		# 	print("{:03} predict {} really {}".format(test_index[i], prediction, y_test_true[i]))
 		# print("Fold ", fold, " Accuracy: ", accuracy_score(y_test_true, y_pred))
 		print("Labeled: {:.2%}".format(my_metric(y_pred, y_test_true, test_index)))
+		advanced_score(y_test_true, y_pred)
 
 
 if __name__ == "__main__":
