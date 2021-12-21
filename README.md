@@ -53,7 +53,17 @@ python data_clean.py
 Then you can run feature extraction
 
 ```
-python features/main.py
+python3 features/main.py
 ```
 
-And it will generate a file called features.csv
+And it will generate a file called `features.csv` and produce charts correlating data to positions
+
+## Predictions
+
+You can test the model with
+
+```
+python3 features/models.py
+```
+
+We already selected the best parameters for the SVM through grid search, but feel free to tweak it.
