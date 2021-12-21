@@ -3,14 +3,18 @@ import csv
 import syntax
 import sentiment
 import numpy as np
+from sys import exit
+from pathlib import Path
 
 
 DATA_PATH = "data"
 CACHE_PATH = "features.csv"
 
 
+
 # This will recalculate all features from the data and save it to CACHE_PATH
 # Assumes that all data files have been generated in DATA_PATH
+# use load_features() instead for cached
 # Returns numpy 2d array of data (no headers)
 def recalculate_features():
 	# read all files in data directory
@@ -28,10 +32,10 @@ def recalculate_features():
 	except:
 		print("Couldn't save features")
 	#return data for use outside this module
-	return data
+	return data, headers
 
 # Checks if features have already been saved to cache. If it can't load them,
-# it will recalculate them.
+# it will recalculate them. Call this outside of module
 # Returns numpy 2d array of data (no headers)
 def load_features():
 	try:
@@ -40,11 +44,9 @@ def load_features():
 		headers = next(reader)
 		data = np.array(list(reader)).astype(float)
 		f.close()
-		print("Cached data")
-		return data
+		return data, headers
 	except:
 		# if something went wrong, recalculate the features
-		print("Recalculating data")
 		return recalculate_features()
 
 
@@ -73,6 +75,10 @@ def extract_features(speakers, features_old, headers):
 	headers.extend(h)
 
 	f,h = syntax.my_car(speakers)
+	features.append(f)
+	headers.extend(h)
+
+	f,h = syntax.search_keywords(speakers)
 	features.append(f)
 	headers.extend(h)
 
@@ -112,6 +118,22 @@ def read_files():
 		order += 1
 	return speakers, data, headers
 
+def load_labels(num_samples):
+	try:
+		labels = np.full(num_samples, -1, dtype=int) #array full of -1
+		p = Path(__file__).with_name('Speakers_labeled.csv')
+		csv = [row.split(",") for row in p.open('r')]
+		for row in csv[1:]:
+			try:
+				idx = int(row[0])
+				val = int(row[2])
+				labels[ idx ] = val
+			except:
+				print("Failed to convert ", row[0])
+		return labels
+	except:
+		exit("Couldn't find labeled data in Speakers_labeled.csv")
+
 
 if __name__ == "__main__":
-	recalculate_features()
+	load_features()

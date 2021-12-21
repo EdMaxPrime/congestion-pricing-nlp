@@ -35,6 +35,7 @@ def pronouns(texts):
 	return final_counts, header
 
 
+#Counts frequencies of most common 50 words in each text
 def most_common(texts):
 	# don't count punctuation
 	punct = ['.', ',', ':', ';', '-', "\'", "\"", '(', ")", '!', '?', "...", "``", "\'\'"]
@@ -65,6 +66,18 @@ def most_common(texts):
 		for j in range(len(headers)):
 			unigrams[i][j] = counts[ headers[j] ] / (breakpoints[i+1] - breakpoints[i])
 	return unigrams, headers
+
+# Assumes each text is already tokenized
+def search_keywords(texts):
+	header = ["climate", "air", "parking", "tax", "disabilities", "transit"]
+	num_texts = len(texts)
+	num_cols = len(header)
+	present = np.zeros((num_texts, num_cols))
+	for i, text in enumerate(texts):
+		for j, kw in enumerate(header):
+			if kw in text:
+				present[i][j] = 1
+	return present
 
 #remove punctuation and stem for one speaker
 def preprocess(speaker):
